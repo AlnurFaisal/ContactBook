@@ -1,12 +1,14 @@
 {
-  "contact01": {
-    "name": {
-      "firstname": "",
-      "lastname": ""
-    },
-    "age": "",
-    "address": "",
-    "phone": "",
-    "photo": ""
+  "contact": {
+    "id": {
+      "name": {
+        "firstname": "",
+        "lastname": ""
+      },
+      "age": "",
+      "address": "",
+      "phone": "",
+      "photo": ""
+    }
   }
 }

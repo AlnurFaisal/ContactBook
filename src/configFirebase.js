@@ -1,5 +1,5 @@
 import Rebase from "re-base";
-import * as firebase from "firebase";
+import firebase from "firebase";
 
 const config = {
   apiKey: process.env.REACT_APP_FIREBASE_APIKEY,
@@ -9,6 +9,5 @@ const config = {
   storageBucket: process.env.REACT_APP_FIREBASE_STORAGEBUCKET,
   messagingSenderId: process.env.REACT_APP_FIREBASE_MESSAGINGSENDER
 };
-console.log(config);
 const app = firebase.initializeApp(config);
 export const base = Rebase.createClass(app.database());
