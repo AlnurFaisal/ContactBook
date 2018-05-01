@@ -1,6 +1,6 @@
 {
-  "contact": {
-    "id": {
+  "contacts": {
+    "01": {
       "name": {
         "firstname": "",
         "lastname": ""
