@@ -125,6 +125,18 @@ class Addcontact extends Component {
                 />
               </div>
             </FormGroup>
+            <FormGroup className="mb-2 row">
+              <Label for="photo" className="col-md-2 col-xs-12">
+                <h4>Photo:</h4>
+              </Label>
+              <div className="col-md-10 col-xs-12">
+                <Input type="file" name="file" id="photo" />
+                <FormText color="muted">
+                  File should not be bigger than 2MB. Only .jpg .png .jpeg are
+                  allowed.
+                </FormText>
+              </div>
+            </FormGroup>
             <br />
             <FormGroup className="mb-2 row">
               <div className="offset-md-2 col-md-10 col-xs-12">
