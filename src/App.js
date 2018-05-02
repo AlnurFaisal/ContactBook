@@ -7,7 +7,7 @@ class App extends Component {
   constructor() {
     super();
     this.state = {
-      contacts: {}
+      contacts: []
     };
   }
 
@@ -24,15 +24,28 @@ class App extends Component {
 
   render() {
     return (
-      <div class="container">
-        <div class="row">
-          <div class="offset-md-2 col-md-8 col-xs-12">
-            <Contactcard />
+      <div className="container">
+        <div className="row">
+          <div className="offset-md-2 col-md-8 col-xs-12">
+            {this.state.contacts.map((element, i) => {
+              return (
+                <Contactcard
+                  contact={element}
+                  index={i}
+                  key={i}
+                  editContact={this.editContact.bind(this)}
+                  deleteContact={this.deleteContact.bind(this)}
+                />
+              );
+            })}
           </div>
         </div>
       </div>
     );
   }
+
+  editContact() {}
+  deleteContact() {}
 }
 
 export default App;

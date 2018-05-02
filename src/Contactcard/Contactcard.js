@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import { Media, Card, CardFooter, CardBody } from "reactstrap";
+import { Media, Card, CardFooter, CardBody, Button } from "reactstrap";
 
 class Contactcard extends Component {
   constructor() {
@@ -7,7 +7,7 @@ class Contactcard extends Component {
   }
 
   render() {
-    const thumbnail = this.props.src
+    const thumbnail = this.props.contact.photo
       ? this.props.src
       : `/img/User_Profile_Picture.jpg`;
 
@@ -15,28 +15,38 @@ class Contactcard extends Component {
       <Card>
         <CardBody>
           <Media>
-            <div class="col-md-3 col-xs-6">
+            <div className="col-md-3 col-xs-6">
               <Media left>
                 <img
                   src={thumbnail}
                   alt="thumbnail"
-                  class="rounded-circle img-fluid"
+                  className="rounded-circle img-fluid"
                 />
               </Media>
             </div>
-            <div class="col-md-9 col-xs-6">
+            <div className="col-md-9 col-xs-6">
               <Media body>
-                <Media heading>Media heading</Media>
-                Cras sit amet nibh libero, in gravida nulla. Nulla vel metus
-                scelerisque ante sollicitudin commodo. Cras purus odio,
-                vestibulum in vulputate at, tempus viverra turpis. Fusce
-                condimentum nunc ac nisi vulputate fringilla. Donec lacinia
-                congue felis in faucibus.
+                <Media heading>
+                  {this.props.contact.name.firstname}{" "}
+                  {this.props.contact.name.lastname}
+                </Media>
+                <strong>Age:</strong> {this.props.contact.age} <br />
+                <strong>Address:</strong> {this.props.contact.address} <br />
+                <strong>Phone:</strong> {this.props.contact.phone} <br />
               </Media>
             </div>
           </Media>
         </CardBody>
-        <CardFooter className="text-muted">Footer</CardFooter>
+        <CardFooter>
+          <div class="offset-md-9 offset-xs-2 col-md-3 col-xs-5">
+            <Button color="primary" onClick={this.props.editContact}>
+              Edit
+            </Button>{" "}
+            <Button color="danger" onClick={this.props.deleteContact}>
+              Delete
+            </Button>
+          </div>
+        </CardFooter>
       </Card>
     );
   }

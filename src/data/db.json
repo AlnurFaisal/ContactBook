@@ -1,6 +1,6 @@
 {
-  "contacts": {
-    "01": {
+  "contacts": [
+    {
       "name": {
         "firstname": "",
         "lastname": ""
@@ -10,5 +10,5 @@
       "phone": "",
       "photo": ""
     }
-  }
+  ]
 }
