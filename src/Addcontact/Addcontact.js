@@ -14,7 +14,24 @@ import {
 class Addcontact extends Component {
   constructor() {
     super();
-    this.state = {};
+    this.state = {
+      firstName: "",
+      lastName: "",
+      age: "",
+      gender: "",
+      address: "",
+      phone: "",
+      selectedFile: null
+    };
+
+    this.handleChangefirst.bind(this);
+    this.handleChangelast.bind(this);
+    this.handleChangeage.bind(this);
+    this.handleChangegender.bind(this);
+    this.handleChangeaddress.bind(this);
+    this.handleChangephone.bind(this);
+    this.handleSubmit.bind(this);
+    this.fileChangedHandler.bind(this);
   }
 
   render() {
@@ -130,7 +147,13 @@ class Addcontact extends Component {
                 <h4>Photo:</h4>
               </Label>
               <div className="col-md-10 col-xs-12">
-                <Input type="file" name="file" id="photo" />
+                <Input
+                  type="file"
+                  name="file"
+                  id="photo"
+                  onChange={this.fileChangedHandler}
+                  accept=".jpg,.png,.jpeg"
+                />
                 <FormText color="muted">
                   File should not be bigger than 2MB. Only .jpg .png .jpeg are
                   allowed.
@@ -155,6 +178,52 @@ class Addcontact extends Component {
         </CardBody>
       </Card>
     );
+  }
+
+  handleChangefirst(e) {
+    this.setState({
+      firstName: e.target.value
+    });
+  }
+
+  handleChangelast(e) {
+    this.setState({
+      lastName: e.target.value
+    });
+  }
+
+  handleChangeage(e) {
+    this.setState({
+      age: e.target.value
+    });
+  }
+
+  handleChangegender(e) {
+    this.setState({
+      gender: e.target.value
+    });
+  }
+
+  handleChangeaddress(e) {
+    this.setState({
+      address: e.target.value
+    });
+  }
+
+  handleChangephone(e) {
+    this.setState({
+      phone: e.target.value
+    });
+  }
+
+  fileChangedHandler(e) {
+    this.setState({
+      selectedFile: e.target.files[0]
+    });
+  }
+
+  handleSubmit(e) {
+    e.preventDefault();
   }
 }
 

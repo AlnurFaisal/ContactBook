@@ -36,7 +36,8 @@ class App extends Component {
               <h1 align="center" className="display-2">
                 Contact Book
               </h1>
-              <Addcontact />
+              <Addcontact addContact={this.addContact.bind(this)} />
+              <br />
             </div>
           </div>
         </div>
