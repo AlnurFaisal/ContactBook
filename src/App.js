@@ -10,10 +10,12 @@ class App extends Component {
     super();
     this.state = {
       contacts: [],
-      addnew: false
+      addnew: false,
+      showError: false
     };
 
-    this.handleClick.bind(this);
+    this.handleClick = this.handleClick.bind(this);
+    this.showError = this.showError.bind(this);
   }
 
   componentWillMount() {
@@ -28,7 +30,7 @@ class App extends Component {
   }
 
   render() {
-    if (this.state.addnew !== false) {
+    if (this.state.addnew) {
       return (
         <div className="container">
           <div className="row">
@@ -36,7 +38,10 @@ class App extends Component {
               <h1 align="center" className="display-2">
                 Contact Book
               </h1>
-              <Addcontact addContact={this.addContact.bind(this)} />
+              <Addcontact
+                handleClick={this.handleClick}
+                showError={this.showError}
+              />
               <br />
             </div>
           </div>
@@ -65,7 +70,7 @@ class App extends Component {
             <div className="col-md-2 col-xs-12">
               <br />
               <br />
-              <Button color="success" onClick={e => this.handleClick(e)}>
+              <Button color="success" onClick={this.handleClick}>
                 <i className="fas fa-plus" />
               </Button>
             </div>
@@ -74,13 +79,25 @@ class App extends Component {
       );
     }
   }
-  handleClick(e) {
-    e.preventDefault();
+  handleClick() {
+    const addnew = this.state.addnew;
+    if (!addnew) {
+      this.setState({
+        addnew: true
+      });
+    } else {
+      this.setState({
+        addnew: false
+      });
+    }
+  }
+
+  showError() {
     this.setState({
-      addnew: true
+      showError: true
     });
   }
-  addContact() {}
+
   editContact() {}
   deleteContact() {}
 }

@@ -1,4 +1,5 @@
 import React, { Component } from "react";
+import { base } from "../configFirebase";
 import {
   Card,
   CardBody,
@@ -162,7 +163,7 @@ class Addcontact extends Component {
             </FormGroup>
             <br />
             <FormGroup className="mb-2 row">
-              <div className="offset-md-2 col-md-10 col-xs-12">
+              <div className="col-md-6 col-xs-12">
                 <Button
                   color="success"
                   size="lg"
@@ -170,7 +171,18 @@ class Addcontact extends Component {
                   value="Submit"
                   block
                 >
-                  Create New Contact
+                  Create
+                </Button>
+              </div>
+              <div className="col-md-6 col-xs-12">
+                <Button
+                  color="danger"
+                  size="lg"
+                  type="button"
+                  block
+                  onClick={this.props.handleClick}
+                >
+                  Cancel
                 </Button>
               </div>
             </FormGroup>
@@ -218,12 +230,33 @@ class Addcontact extends Component {
 
   fileChangedHandler(e) {
     this.setState({
-      selectedFile: e.target.files[0]
+      selectedFile: e.target.files[0].value
     });
   }
 
   handleSubmit(e) {
     e.preventDefault();
+    base
+      .post(`contacts`, {
+        data: {
+          address: `${this.state.address}`,
+          age: `${this.state.age}`,
+          gender: `${this.state.gender}`,
+          name: {
+            firstname: `${this.state.firstName}`,
+            lastname: `${this.state.lastName}`
+          },
+          phone: `${this.state.phone}`,
+          photo: `${this.state.selectedFile}`
+        }
+      })
+      .then(() => {
+        this.props.handleClick();
+      })
+      .catch(err => {
+        // handle error
+        this.props.showError();
+      });
   }
 }
 
