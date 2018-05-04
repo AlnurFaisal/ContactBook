@@ -3,18 +3,14 @@ import "bootstrap/dist/css/bootstrap.min.css";
 import { base } from "./configFirebase";
 import Contactcard from "./Contactcard/Contactcard";
 import Addcontact from "./Addcontact/Addcontact";
-import { Button } from "reactstrap";
 
 class App extends Component {
   constructor() {
     super();
     this.state = {
       contacts: [],
-      addnew: false,
       showError: false
     };
-
-    this.handleClick = this.handleClick.bind(this);
     this.showError = this.showError.bind(this);
   }
 
@@ -29,72 +25,40 @@ class App extends Component {
     base.removeBinding(this.contactsRef);
   }
 
-  render() {
-    if (this.state.addnew) {
-      return (
-        <div className="container">
-          <div className="row">
-            <div className="col-md-12 col-xs-12">
-              <h1 align="center" className="display-2">
-                Contact Book
-              </h1>
-              <Addcontact
-                handleClick={this.handleClick}
-                showError={this.showError}
-              />
-              <br />
-            </div>
-          </div>
-        </div>
-      );
-    } else {
-      return (
-        <div className="container">
-          <div className="row">
-            <div className="offset-md-2 col-md-8 col-xs-12">
-              <h1 align="center" className="display-2">
-                Contact Book
-              </h1>
-              {this.state.contacts.map((element, i) => {
-                return (
-                  <Contactcard
-                    contact={element}
-                    index={i}
-                    key={i}
-                    editContact={this.editContact.bind(this)}
-                    deleteContact={this.deleteContact.bind(this)}
-                  />
-                );
-              })}
-            </div>
-            <div className="col-md-2 col-xs-12">
-              <br />
-              <br />
-              <Button color="success" onClick={this.handleClick}>
-                <i className="fas fa-plus" />
-              </Button>
-            </div>
-          </div>
-        </div>
-      );
-    }
+  hasContacts() {
+    return Array.isArray(this.state.contacts);
   }
-  handleClick() {
-    const addnew = this.state.addnew;
-    if (!addnew) {
-      this.setState({
-        addnew: true
-      });
+
+  render() {
+    if (this.props.addnew) {
+      return (
+        <Addcontact
+          handleClick={this.props.handleClick}
+          showError={this.showError}
+          contactsLength={this.state.contacts.length}
+        />
+      );
     } else {
-      this.setState({
-        addnew: false
-      });
+      return (
+        this.hasContacts() &&
+        this.state.contacts.map((element, i) => {
+          return (
+            <Contactcard
+              contact={element}
+              index={i}
+              key={i}
+              editContact={this.editContact.bind(this)}
+              deleteContact={this.deleteContact.bind(this)}
+            />
+          );
+        })
+      );
     }
   }
 
   showError() {
     this.setState({
-      showError: true
+      showError: !this.state.showError
     });
   }
 

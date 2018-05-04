@@ -2,13 +2,13 @@
   "contacts": [
     {
       "name": {
-        "firstname": "",
-        "lastname": ""
+        "firstname": "first",
+        "lastname": "last"
       },
-      "age": "",
-      "gender": "",
-      "address": "",
-      "phone": "",
+      "age": "23",
+      "gender": "male",
+      "address": "sample address",
+      "phone": "12345678",
       "photo": ""
     }
   ]

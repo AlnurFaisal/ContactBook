@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import { base } from "../configFirebase";
+import { base, storage } from "../configFirebase";
 import {
   Card,
   CardBody,
@@ -9,7 +9,8 @@ import {
   FormGroup,
   Label,
   Input,
-  FormText
+  FormText,
+  Progress
 } from "reactstrap";
 
 class Addcontact extends Component {
@@ -22,20 +23,24 @@ class Addcontact extends Component {
       gender: "",
       address: "",
       phone: "",
-      selectedFile: null
+      uploadStatus: 0,
+      selectedFilename: ""
     };
 
-    this.handleChangefirst.bind(this);
-    this.handleChangelast.bind(this);
-    this.handleChangeage.bind(this);
-    this.handleChangegender.bind(this);
-    this.handleChangeaddress.bind(this);
-    this.handleChangephone.bind(this);
-    this.handleSubmit.bind(this);
-    this.fileChangedHandler.bind(this);
+    this.handleChangefirst = this.handleChangefirst.bind(this);
+    this.handleChangelast = this.handleChangelast.bind(this);
+    this.handleChangeage = this.handleChangeage.bind(this);
+    this.handleChangegender = this.handleChangegender.bind(this);
+    this.handleChangeaddress = this.handleChangeaddress.bind(this);
+    this.handleChangephone = this.handleChangephone.bind(this);
+    this.handleSubmit = this.handleSubmit.bind(this);
+    this.fileChangedHandler = this.fileChangedHandler.bind(this);
+    this.updateLoader = this.updateLoader.bind(this);
   }
 
   render() {
+    console.log(this.state.gender);
+    console.log(this.state.selectedFilename);
     return (
       <Card>
         <CardHeader>
@@ -106,8 +111,9 @@ class Addcontact extends Component {
                   value={this.state.gender}
                   onChange={this.handleChangegender}
                 >
-                  <option>Male</option>
-                  <option>Female</option>
+                  <option value="Select">Select one</option>
+                  <option value="Male">Male</option>
+                  <option value="Female">Female</option>
                 </Input>
               </div>
             </FormGroup>
@@ -150,7 +156,7 @@ class Addcontact extends Component {
               <div className="col-md-10 col-xs-12">
                 <Input
                   type="file"
-                  name="file"
+                  name="photo"
                   id="photo"
                   onChange={this.fileChangedHandler}
                   accept=".jpg,.png,.jpeg"
@@ -159,6 +165,8 @@ class Addcontact extends Component {
                   File should not be bigger than 2MB. Only .jpg .png .jpeg are
                   allowed.
                 </FormText>
+                <br />
+                <Progress value={this.state.uploadStatus} />
               </div>
             </FormGroup>
             <br />
@@ -190,6 +198,12 @@ class Addcontact extends Component {
         </CardBody>
       </Card>
     );
+  }
+
+  updateLoader(percentage) {
+    this.setState({
+      uploadStatus: percentage
+    });
   }
 
   handleChangefirst(e) {
@@ -230,14 +244,34 @@ class Addcontact extends Component {
 
   fileChangedHandler(e) {
     this.setState({
-      selectedFile: e.target.files[0].value
+      selectedFilename: e.target.files[0].name
     });
+    /*const storageRef = storage
+      .ref()
+      .child("images/profile/" + this.state.selectedFilename);
+      let uploadTask = storageRef.put(this.state.selectedFile);
+      uploadTask.on(
+        "state_changed",
+        function progress(snapshot) {
+          let percentage =
+            snapshot.bytesTransferred / snapshot.totalBytes * 100;
+          this.updateLoader(percentage);
+        },
+
+        function error(err) {
+          this.props.showError();
+          console.log(err);
+        },
+
+        function complete() {}
+      );
+    */
   }
 
   handleSubmit(e) {
     e.preventDefault();
     base
-      .post(`contacts`, {
+      .post(`contacts/${this.props.contactsLength}`, {
         data: {
           address: `${this.state.address}`,
           age: `${this.state.age}`,
@@ -247,7 +281,7 @@ class Addcontact extends Component {
             lastname: `${this.state.lastName}`
           },
           phone: `${this.state.phone}`,
-          photo: `${this.state.selectedFile}`
+          photo: `${this.state.selectedFilename}`
         }
       })
       .then(() => {
@@ -256,6 +290,7 @@ class Addcontact extends Component {
       .catch(err => {
         // handle error
         this.props.showError();
+        console.log(err);
       });
   }
 }
