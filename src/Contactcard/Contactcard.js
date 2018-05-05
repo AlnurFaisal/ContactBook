@@ -6,18 +6,28 @@ class Contactcard extends Component {
   constructor() {
     super();
     this.state = {
-      storageRef: storage.ref()
+      myphoto: ""
     };
+    this.storageRef = storage.ref();
   }
 
   render() {
     const path = "/img/profile/";
-    const thumbnail =
-      this.props.contact.photo === null
-        ? `${this.state.storageRef.child(
-            "images/profile/this.props.contact.photo"
-          )}`
-        : `${path}User_Profile_Picture.jpg`;
+    const firebasePath = `images/profile/${this.props.contact.photo}`;
+    let { state } = this;
+    this.storageRef
+      .child(firebasePath)
+      .getDownloadURL()
+      .then(url => {
+        state.myphoto = url;
+        this.setState(state);
+      })
+      .catch(err => {
+        console.log("err");
+      });
+    const thumbnail = this.props.contact.photo
+      ? `${this.state.myphoto}`
+      : `${path}User_Profile_Picture.jpg`;
 
     return (
       <div>
@@ -26,11 +36,7 @@ class Contactcard extends Component {
             <Media>
               <div className="col-md-3 col-xs-6">
                 <Media left>
-                  <img
-                    src={thumbnail}
-                    alt="thumbnail"
-                    className="rounded-circle img-fluid"
-                  />
+                  <img src={thumbnail} alt="thumbnail" className="img-fluid" />
                 </Media>
               </div>
               <div className="col-md-8 col-xs-6">

@@ -1,5 +1,6 @@
 import React, { Component } from "react";
 import { base, storage } from "../configFirebase";
+import { SpinLoader } from "react-css-loaders";
 import {
   Card,
   CardBody,
@@ -9,8 +10,7 @@ import {
   FormGroup,
   Label,
   Input,
-  FormText,
-  Progress
+  FormText
 } from "reactstrap";
 
 class Addcontact extends Component {
@@ -23,7 +23,6 @@ class Addcontact extends Component {
       gender: "",
       address: "",
       phone: "",
-      uploadStatus: 0,
       selectedFilename: ""
     };
 
@@ -35,12 +34,9 @@ class Addcontact extends Component {
     this.handleChangephone = this.handleChangephone.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
     this.fileChangedHandler = this.fileChangedHandler.bind(this);
-    this.updateLoader = this.updateLoader.bind(this);
   }
 
   render() {
-    console.log(this.state.gender);
-    console.log(this.state.selectedFilename);
     return (
       <Card>
         <CardHeader>
@@ -165,8 +161,6 @@ class Addcontact extends Component {
                   File should not be bigger than 2MB. Only .jpg .png .jpeg are
                   allowed.
                 </FormText>
-                <br />
-                <Progress value={this.state.uploadStatus} />
               </div>
             </FormGroup>
             <br />
@@ -198,12 +192,6 @@ class Addcontact extends Component {
         </CardBody>
       </Card>
     );
-  }
-
-  updateLoader(percentage) {
-    this.setState({
-      uploadStatus: percentage
-    });
   }
 
   handleChangefirst(e) {
@@ -246,26 +234,23 @@ class Addcontact extends Component {
     this.setState({
       selectedFilename: e.target.files[0].name
     });
-    /*const storageRef = storage
+    const storageRef = storage
       .ref()
-      .child("images/profile/" + this.state.selectedFilename);
-      let uploadTask = storageRef.put(this.state.selectedFile);
-      uploadTask.on(
-        "state_changed",
-        function progress(snapshot) {
-          let percentage =
-            snapshot.bytesTransferred / snapshot.totalBytes * 100;
-          this.updateLoader(percentage);
-        },
+      .child("images/profile/" + e.target.files[0].name);
+    let uploadTask = storageRef.put(e.target.files[0]);
+    uploadTask.on(
+      "state_changed",
+      function progress() {},
 
-        function error(err) {
-          this.props.showError();
-          console.log(err);
-        },
+      function error(err) {
+        this.props.showError();
+        console.log(err);
+      },
 
-        function complete() {}
-      );
-    */
+      function complete() {
+        console.log("upload completed");
+      }
+    );
   }
 
   handleSubmit(e) {

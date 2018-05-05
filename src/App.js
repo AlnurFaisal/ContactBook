@@ -3,6 +3,7 @@ import "bootstrap/dist/css/bootstrap.min.css";
 import { base } from "./configFirebase";
 import Contactcard from "./Contactcard/Contactcard";
 import Addcontact from "./Addcontact/Addcontact";
+import { SpinLoader } from "react-css-loaders";
 
 class App extends Component {
   constructor() {
@@ -26,7 +27,7 @@ class App extends Component {
   }
 
   hasContacts() {
-    return Array.isArray(this.state.contacts);
+    return this.state.contacts.length;
   }
 
   render() {
@@ -39,9 +40,8 @@ class App extends Component {
         />
       );
     } else {
-      return (
-        this.hasContacts() &&
-        this.state.contacts.map((element, i) => {
+      if (this.hasContacts() > 0) {
+        return this.state.contacts.map((element, i) => {
           return (
             <Contactcard
               contact={element}
@@ -51,8 +51,9 @@ class App extends Component {
               deleteContact={this.deleteContact.bind(this)}
             />
           );
-        })
-      );
+        });
+      }
+      return <SpinLoader color="#4CAF50" size="7" />;
     }
   }
 
