@@ -34,6 +34,8 @@ class App extends Component {
           handleClick={this.props.handleClick}
           showError={this.showError}
           contactsLength={this.state.contacts.length}
+          addCounter={this.addCounter.bind(this)}
+          counter={this.state.counter}
         />
       );
     } else {
@@ -56,6 +58,14 @@ class App extends Component {
       }
       return <div />;
     }
+  }
+
+  addCounter() {
+    let copyCounter = this.state.counter;
+    copyCounter++;
+    this.setState({
+      counter: copyCounter
+    });
   }
 
   hasContacts() {

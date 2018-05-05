@@ -231,11 +231,11 @@ class Addcontact extends Component {
 
   fileChangedHandler(e) {
     this.setState({
-      selectedFilename: e.target.files[0].name
+      selectedFilename: this.props.counter
     });
     const storageRef = storage
       .ref()
-      .child("images/profile/" + e.target.files[0].name);
+      .child("images/profile/" + this.props.counter);
     let uploadTask = storageRef.put(e.target.files[0]);
     uploadTask.on(
       "state_changed",
@@ -250,6 +250,7 @@ class Addcontact extends Component {
         console.log("upload completed");
       }
     );
+    this.props.addCounter();
   }
 
   handleSubmit(e) {
