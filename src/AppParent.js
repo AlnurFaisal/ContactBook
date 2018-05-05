@@ -19,7 +19,12 @@ class AppParent extends Component {
             </h1>
             <div className="offset-md-3 col-md-6 col-xs-12">
               <br />
-              <Button color="success" onClick={this.handleClick} block>
+              <Button
+                color="success"
+                size="lg"
+                onClick={this.handleClick}
+                block
+              >
                 Add New Contact <i className="fas fa-plus" />
               </Button>
               <br />
