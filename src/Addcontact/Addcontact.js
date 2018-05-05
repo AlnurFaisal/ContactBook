@@ -1,6 +1,5 @@
 import React, { Component } from "react";
 import { base, storage } from "../configFirebase";
-import { SpinLoader } from "react-css-loaders";
 import {
   Card,
   CardBody,

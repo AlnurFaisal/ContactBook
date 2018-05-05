@@ -10,7 +10,8 @@ class App extends Component {
     super();
     this.state = {
       contacts: [],
-      showError: false
+      showError: false,
+      counter: 0
     };
     this.showError = this.showError.bind(this);
   }
@@ -26,10 +27,6 @@ class App extends Component {
     base.removeBinding(this.contactsRef);
   }
 
-  hasContacts() {
-    return this.state.contacts.length;
-  }
-
   render() {
     if (this.props.addnew) {
       return (
@@ -40,21 +37,29 @@ class App extends Component {
         />
       );
     } else {
-      if (this.hasContacts() > 0) {
-        return this.state.contacts.map((element, i) => {
-          return (
-            <Contactcard
-              contact={element}
-              index={i}
-              key={i}
-              editContact={this.editContact.bind(this)}
-              deleteContact={this.deleteContact.bind(this)}
-            />
-          );
-        });
+      if (this.hasContacts()) {
+        if (this.state.contacts.length !== 0) {
+          return this.state.contacts.map((element, i) => {
+            return (
+              <Contactcard
+                contact={element}
+                index={i}
+                key={i}
+                editContact={this.editContact.bind(this)}
+                deleteContact={this.deleteContact.bind(this)}
+              />
+            );
+          });
+        } else {
+          return <SpinLoader color="#4CAF50" size="7" />;
+        }
       }
-      return <SpinLoader color="#4CAF50" size="7" />;
+      return <div />;
     }
+  }
+
+  hasContacts() {
+    return Array.isArray(this.state.contacts);
   }
 
   showError() {

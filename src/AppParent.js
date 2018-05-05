@@ -17,14 +17,14 @@ class AppParent extends Component {
             <h1 align="center" className="display-2">
               Contact Book
             </h1>
-            <App handleClick={this.handleClick} addnew={this.state.addnew} />
-            <div className="col-md-2 col-xs-12">
+            <div className="offset-md-3 col-md-6 col-xs-12">
               <br />
-              <br />
-              <Button color="success" onClick={this.handleClick}>
+              <Button color="success" onClick={this.handleClick} block>
                 Add New Contact <i className="fas fa-plus" />
               </Button>
+              <br />
             </div>
+            <App handleClick={this.handleClick} addnew={this.state.addnew} />
           </div>
         </div>
       </div>
