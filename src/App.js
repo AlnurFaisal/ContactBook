@@ -62,7 +62,19 @@ class App extends Component {
     return Array.isArray(this.state.contacts);
   }
 
-  editContact() {}
+  editContact(index, firstname, lastname, age, gender, address, phone) {
+    let copyContacts = [...this.state.contacts];
+    copyContacts[index].name.firstname = firstname;
+    copyContacts[index].name.lastname = lastname;
+    copyContacts[index].age = age;
+    copyContacts[index].gender = gender;
+    copyContacts[index].address = address;
+    copyContacts[index].phone = phone;
+    this.setState({
+      contacts: copyContacts
+    });
+  }
+
   deleteContact() {}
 }
 
