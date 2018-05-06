@@ -154,7 +154,6 @@ class Addcontact extends Component {
                   name="photo"
                   id="photo"
                   onChange={this.fileChangedHandler}
-                  accept=".jpg, .png, .jpeg"
                 />
                 <FormText color="muted">
                   File should not be bigger than 2MB. Only .jpg .png .jpeg are
@@ -230,29 +229,43 @@ class Addcontact extends Component {
   }
 
   fileChangedHandler(e) {
-    this.setState({
-      selectedFilename: e.target.files[0].name
-    });
-    const storageRef = storage
-      .ref()
-      .child("images/profile/" + e.target.files[0].name);
-    let uploadTask = storageRef.put(e.target.files[0]);
-    uploadTask.on(
-      "state_changed",
-      function progress() {},
+    const fileName = e.target.files[0].name;
+    const fileExt = fileName.split(".");
+    if (
+      fileExt[1] === "jpeg" ||
+      fileExt[1] === "JPEG" ||
+      fileExt[1] === "png" ||
+      fileExt[1] === "PNG" ||
+      fileExt[1] === "jpg" ||
+      fileExt[1] === "JPG"
+    ) {
+      this.setState({
+        selectedFilename: fileName
+      });
+      const storageRef = storage.ref().child("images/profile/" + fileName);
+      let uploadTask = storageRef.put(e.target.files[0]);
+      uploadTask.on(
+        "state_changed",
+        function progress() {},
 
-      function error(err) {
-        this.props.toggleShow(
-          `There was a problem processing the image you have uploaded. 
-          Please ensure you have uploaded the correct file type and try again.`
-        );
-        console.log(err);
-      },
+        function error(err) {
+          this.props.toggleShow(
+            `There was a problem processing the image you have uploaded. 
+            Please ensure you have uploaded the correct file type and try again.`
+          );
+          console.log(err);
+        },
 
-      function complete() {
-        console.log("upload completed");
-      }
-    );
+        function complete() {
+          console.log("upload completed");
+        }
+      );
+    } else {
+      this.props.toggleShow(
+        `There was a problem processing the image you have uploaded. 
+        Please ensure you have uploaded the correct file type and try again.`
+      );
+    }
   }
 
   handleSubmit(e) {

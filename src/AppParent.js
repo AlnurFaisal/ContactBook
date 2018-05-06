@@ -18,6 +18,7 @@ class AppParent extends Component {
       <div className="container">
         <div className="row">
           <div className="col-md-12 col-xs-12">
+            <br />
             <Alert
               color="danger"
               isOpen={this.state.visible}
