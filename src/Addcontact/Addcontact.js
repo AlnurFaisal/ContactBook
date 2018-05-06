@@ -154,7 +154,7 @@ class Addcontact extends Component {
                   name="photo"
                   id="photo"
                   onChange={this.fileChangedHandler}
-                  accept=".jpg,.png,.jpeg"
+                  accept=".jpg, .png, .jpeg"
                 />
                 <FormText color="muted">
                   File should not be bigger than 2MB. Only .jpg .png .jpeg are
@@ -231,18 +231,21 @@ class Addcontact extends Component {
 
   fileChangedHandler(e) {
     this.setState({
-      selectedFilename: this.props.counter
+      selectedFilename: e.target.files[0].name
     });
     const storageRef = storage
       .ref()
-      .child("images/profile/" + this.props.counter);
+      .child("images/profile/" + e.target.files[0].name);
     let uploadTask = storageRef.put(e.target.files[0]);
     uploadTask.on(
       "state_changed",
       function progress() {},
 
       function error(err) {
-        this.props.showError();
+        this.props.toggleShow(
+          `There was a problem processing the image you have uploaded. 
+          Please ensure you have uploaded the correct file type and try again.`
+        );
         console.log(err);
       },
 
@@ -250,7 +253,6 @@ class Addcontact extends Component {
         console.log("upload completed");
       }
     );
-    this.props.addCounter();
   }
 
   handleSubmit(e) {
@@ -274,7 +276,9 @@ class Addcontact extends Component {
       })
       .catch(err => {
         // handle error
-        this.props.showError();
+        this.props
+          .toggleShow(`There was a problem trying to save your input to the database.
+        Please try again.`);
         console.log(err);
       });
   }

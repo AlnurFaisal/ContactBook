@@ -23,7 +23,7 @@ class Contactcard extends Component {
         this.setState(state);
       })
       .catch(err => {
-        console.log("err");
+        console.log(err);
       });
     const thumbnail = this.props.contact.photo
       ? `${this.state.myphoto}`

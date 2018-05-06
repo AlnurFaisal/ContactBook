@@ -1,18 +1,31 @@
 import React, { Component } from "react";
 import App from "./App";
-import { Button } from "reactstrap";
+import { Button, Alert } from "reactstrap";
 
 class AppParent extends Component {
   constructor() {
     super();
-    this.state = {};
+    this.state = {
+      visible: false,
+      errorMsg: ""
+    };
     this.handleClick = this.handleClick.bind(this);
+    this.onDismiss = this.onDismiss.bind(this);
   }
 
   render() {
     return (
       <div className="container">
         <div className="row">
+          <div className="col-md-12 col-xs-12">
+            <Alert
+              color="danger"
+              isOpen={this.state.visible}
+              toggle={this.onDismiss}
+            >
+              {this.state.errorMsg}
+            </Alert>
+          </div>
           <div className="offset-md-1 col-md-10 col-xs-12">
             <h1 align="center" className="display-2">
               Contact Book
@@ -29,11 +42,26 @@ class AppParent extends Component {
               </Button>
               <br />
             </div>
-            <App handleClick={this.handleClick} addnew={this.state.addnew} />
+            <App
+              handleClick={this.handleClick}
+              addnew={this.state.addnew}
+              toggleShow={this.toggleShow.bind(this)}
+            />
           </div>
         </div>
       </div>
     );
+  }
+
+  onDismiss() {
+    this.setState({ visible: false });
+  }
+
+  toggleShow(msg) {
+    this.setState({
+      visible: !this.state.visible,
+      errorMsg: msg
+    });
   }
 
   handleClick() {

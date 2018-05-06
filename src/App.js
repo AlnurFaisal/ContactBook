@@ -10,10 +10,8 @@ class App extends Component {
     super();
     this.state = {
       contacts: [],
-      showError: false,
       counter: 0
     };
-    this.showError = this.showError.bind(this);
   }
 
   componentWillMount() {
@@ -32,10 +30,10 @@ class App extends Component {
       return (
         <Addcontact
           handleClick={this.props.handleClick}
-          showError={this.showError}
-          contactsLength={this.state.contacts.length}
-          addCounter={this.addCounter.bind(this)}
-          counter={this.state.counter}
+          toggleShow={this.props.toggleShow}
+          contactsLength={
+            this.hasContacts() ? this.state.contacts.length : this.state.counter
+          }
         />
       );
     } else {
@@ -60,22 +58,8 @@ class App extends Component {
     }
   }
 
-  addCounter() {
-    let copyCounter = this.state.counter;
-    copyCounter++;
-    this.setState({
-      counter: copyCounter
-    });
-  }
-
   hasContacts() {
     return Array.isArray(this.state.contacts);
-  }
-
-  showError() {
-    this.setState({
-      showError: !this.state.showError
-    });
   }
 
   editContact() {}
