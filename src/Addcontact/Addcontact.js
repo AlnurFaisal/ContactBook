@@ -1,5 +1,6 @@
 import React, { Component } from "react";
 import { base, storage } from "../configFirebase";
+import Randomstring from "randomstring";
 import {
   Card,
   CardBody,
@@ -229,7 +230,7 @@ class Addcontact extends Component {
   }
 
   fileChangedHandler(e) {
-    const fileName = e.target.files[0].name;
+    let fileName = e.target.files[0].name;
     const fileExt = fileName.split(".");
     if (
       fileExt[1] === "jpeg" ||
@@ -239,6 +240,9 @@ class Addcontact extends Component {
       fileExt[1] === "jpg" ||
       fileExt[1] === "JPG"
     ) {
+      fileName = Randomstring.generate({
+        charset: "alphanumeric"
+      });
       this.setState({
         selectedFilename: fileName
       });
