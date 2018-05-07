@@ -244,9 +244,11 @@ class Addcontact extends Component {
         charset: "alphanumeric"
       });
       this.setState({
-        selectedFilename: fileName
+        selectedFilename: `${fileName}.${fileExt[1]}`
       });
-      const storageRef = storage.ref().child("images/profile/" + fileName);
+      const storageRef = storage
+        .ref()
+        .child(`images/profile/${fileName}.${fileExt[1]}`);
       let uploadTask = storageRef.put(e.target.files[0]);
       uploadTask.on(
         "state_changed",
